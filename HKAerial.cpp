@@ -1,15 +1,25 @@
 /*
-	Bryan Jeremy
+	BJeremy
 	24JAN2021
 	Assignment - Skynet::HK-Aerial
 	CSC215 - Intro to C/C++ programming
+
+	Program requirements:
+		* 8x8 grid formation consisting of 64 blocks
+		* program keeps track of each turn (to be displayed)
+		* program should use binary search pattern (unpredictable)
+		* program should loop until enemy location is found
+		* display enemy found location
+		* display how many tries to get there before finding enemy
+		* display grid location of enemy
+		* display the size of search grid
 */
 // preprocessor directives
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
 #include <string>
-// global declarations
+// global directives
 using std::cout;
 using std::endl;
 using std::cin;
@@ -26,9 +36,8 @@ int main()
 	int gridCount = 0;
 	// initializing and declaring an array variable of 64 int to represent an 8 x 8 grid
 	int gridArray[64] = { 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,
-			     21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,
-			     39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,
-			     57,58,59,60,61,62,63,64 };
+	21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,
+	45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64 };
 	// initializing and declaring an array variable of 64 strings to be used as grid location names
 	string gridMatch[64] =
 	{
@@ -43,11 +52,11 @@ int main()
 	};
 
 	// initializing and declaring an int variable for binary search low number
-	int searchGridLowNumber = 0;
+	int searchGridLowNumber = 1;
 	// initializing and declaring an int variable for binary search high number
 	int searchGridHighNumber = sizeof(gridArray) / sizeof(gridArray[0]);
 	// initializing and declaring an int variable for binary search potential target location 
-	int targetLocationPrediction = 0;
+	int targetLocationPrediction = -1;
 	// initializing and declaring a char variable for replay option
 	char playAgain = 'Y';
 
@@ -55,7 +64,7 @@ int main()
 	cout << "Initializing Skynet HK-Aerial program... " << endl;
 	cout << "Displaying 8 x 8 Targeting Grid... \n" << endl;
 
-	
+
 	// DISPLAY AN 8 X 8 GRID to make it easier to code data for location array
 	// initializing and declaring a char array for 8x8 grid display
 	char rows[8] = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H' };
@@ -74,13 +83,14 @@ int main()
 		cout << endl;
 	}
 	cout << "\n";
-	
+
+
+
 	// MATCH RANDOM NUMBER TO A GRID LOCATION
 	// initializing and declaring an int variable with the value of the seeded random number
 	int secretGridLocationTemp = randomNumber;
 	// initializing and declaring a string variable with the value of the array index that could be a potential target
-	string gridLocation = gridMatch[secretGridLocationTemp];
-
+	string gridLocation = gridMatch[secretGridLocationTemp - 1];		//good
 	// TARGET LOCATION/ATTEMPT COUNT
 	// binary search algorithm: cuts array in half
 	targetLocationPrediction = ((searchGridHighNumber - searchGridLowNumber) / 2) + searchGridLowNumber;
@@ -147,7 +157,7 @@ int main()
 			string temp = gridMatch[i];
 		}
 	}
-	
+
 	// VISUAL GRID DISPLAY FORMATTING
 	// initialize and declare a size_t array for columns
 	size_t i{};
