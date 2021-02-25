@@ -1,0 +1,316 @@
+// This program is a compilation of functions
+
+
+#define _CRT_SECURE_NO_WARNINGS	// for use in overriding security warnings for ctime, asctime
+#include <iostream>	
+#include <cmath>	// for using sqrt/cbrt (square root/cubed root)
+#include <conio.h>	// for use with date/time
+#include <ctime>	// for use with date/time
+#include <iomanip>	// for displaying hex
+#include <string>
+#include <fstream>	// to read/write from a file
+
+using namespace std;
+
+int userFunctionSelection = 0;
+string functionsAvailable[] = {"1) Find the Square Root of a Number.",
+	"2) Swapping number swapping",
+	"3) Find the Largest Number ever.",
+	"4) ASCII III Aristotle",
+	"5) Find the ever-elusive cubed root of en",
+	"6) What IS today's date? and time.",
+	"7) Open notepad",
+	"8) Write to a text file."
+};
+
+void readFromFile();
+void writeToFile();
+void openNotepad();
+void whatTime();
+void asciiTime();
+void showAsciiTable();
+void isANumber(string);
+void findLargestNumber();
+void swapNumbers();
+void findSquareRoot();
+void findCubedRoot();
+void selectFunction(int);
+void playAgain();
+
+int main()
+{
+	cout << "What interests you today?\n\n";
+	// iterate through array of functions to display user choices
+	for(int i = 0; i < 8; i++)
+	{
+		cout << functionsAvailable[i] << "\n";
+	}
+	cout << "\nEnter the number of the function you like to use...\t";
+	cin >> userFunctionSelection;
+	// call function to determine the course of this program
+	selectFunction(userFunctionSelection);
+	// on selected function end, return here, to ask player to play again
+	playAgain();
+	return 0;
+}
+
+// switch statement used to determine which function to run based on user input
+void selectFunction(int userFunctionSelection)
+{
+	switch (userFunctionSelection) {
+	case 1:		// find the square root of a number
+		cout << "\nExcellent!" << endl;
+		findSquareRoot();
+		break;
+	case 2:		// swap numbers
+		cout << "\nExcellent!  You would like to swap numbers.\n";
+		swapNumbers();
+		break;
+	case 3:		// find the largest of three numbers
+		cout << "\nExcellent!  You would like to find the largest number out of many.\n";
+		findLargestNumber();
+		break;
+	case 4:		// find an ascii value, or print the ascii table
+		cout << "\nExcellent!  It's ASCII time!\n";
+		asciiTime();
+		break;
+	case 5:		// find cubed root of a number
+		cout << "\nExcellent!  Let's find the cubed root of a number!\n";
+		findCubedRoot();
+		break;
+	case 6:		// display today's time and date
+		cout << "\nExcellent!\n";
+		whatTime();
+		break;
+	case 7:		// display today's time and date
+		cout << "\nCool.  a notepad application should open shortly.\n";
+		openNotepad();
+		break;
+	case 8:		// write to (and possibly read from) a file
+		cout << "\nAnd now, we will write to a file!\n";
+		writeToFile();
+		break;
+	default:
+		cout << "Invalid input.  Please try again." << endl;
+	}
+}
+// function opens a specific txt file (notepad.exe)
+void openNotepad()
+{
+	system("C:\\Users\\crunk\\Documents\\UAT\\CSC215Projects\\VariousFuntions\\test.txt");
+	// system("notepad.exe");
+}
+// Get current date/time.  Display local and UTC time.
+void whatTime()
+{
+	// using #define _CRT_SECURE_NO_WARNINGS to override warnings
+	// current date/time based on current system
+	time_t getTime = time(NULL);
+	// convert getTime to string form
+	char* getTimeString = ctime(&getTime);
+	cout << "\nThe local date and time is:\t" << getTimeString << "\n";
+	// convert getTime to tm struct for UTC
+	tm* gmtm = gmtime(&getTime);
+	// convert tm_struct to string
+	getTimeString = asctime(gmtm);
+	cout << "The UTC date and time is:\t" << getTimeString << "\n";
+}
+// find the cubed root of a user number
+void findCubedRoot()
+{
+	float userNumber;
+	float answer;
+	
+	cout << "\nEnter any number: \t";
+	cin >> userNumber;
+	//cbrt -> cubed root (#include <cmath>)
+	answer = cbrt(userNumber);		
+	cout << "\nThe cubed root of " << userNumber << " is: " << answer << "\n";
+}
+// show ascii value of user input
+void asciiTime()
+{
+	char c;
+	char asciiView;
+	cout << "\nEnter a character: (A - Z) \t";
+	cin >> c;
+	// int(c) displays to console the integer value of char c
+	cout << "\nASCII Value of " << c << " is " << int(c) << "!\n\n";
+
+	cout << "Would you like to view the entire ASCII table? (Y or N) \t";
+	cin >> asciiView;
+	if (asciiView == 'Y' || asciiView == 'y')
+	{
+		cout << "\n";
+		showAsciiTable();
+	}
+	else if (asciiView == 'N' || asciiView == 'n')
+	{
+		exit(0);
+	}
+	else
+	{
+		cout << "The answer you have given is invalid.\n\n";
+		asciiTime();
+	}
+}
+// displays the ascii table
+void showAsciiTable()
+{
+	cout << "INT\t" << "HEX\t" << "CHAR\t" << "OCT\n";
+	for(int i = 0; i < 128; i++)
+	{
+		// for index i, display dec value
+		cout << dec << i;
+		// for index i, display hex value in uppercase
+		cout << "\t0x" << hex << uppercase << i;
+		// for index i, display char value
+		cout << "\t" << static_cast<char>(i);
+		// for index i, display octal value
+		cout << "\t" << oct << i << "\n";
+		// octal 8 is a backspace, hence the offset
+		// octal 9 is a tab, hence the offset
+		// to be corrected
+	}
+}
+// finds the largest number out of three from user input
+void findLargestNumber()
+{
+	float num1, num2, num3;
+
+	cout << "Enter first number: \t";
+	cin >> num1;
+	cout << "\nEnter second number: \t";
+	cin >> num2;
+	cout << "\nEnter third number: \t";
+	cin >> num3;
+	cout << "\n";
+	
+	if (num1 >= num2 && num1 >= num3)
+		cout << "Largest number: " << num1 << "\n";
+
+	if (num2 >= num1 && num2 >= num3)
+		cout << "Largest number: " << num2 << "\n";
+
+	if (num3 >= num1 && num3 >= num2)
+		cout << "Largest number: " << num3 << "\n";
+}
+// After a previous function completes, ask user if they would like to use a different function
+void playAgain()
+{
+	char yesOrNo;
+	cout << "\nWould you like to use a different function? (Y or N) \t";
+	cin >> yesOrNo;
+
+	if(yesOrNo == 'Y' || yesOrNo == 'y')
+	{
+		cout << "\n";
+		main();
+	}
+	else if (yesOrNo == 'N' || yesOrNo == 'n')
+	{
+		exit(0);
+	}
+	else
+	{
+		cout << "The answer you have given is invalid.\n\n";
+		playAgain();		
+	}
+}
+// incorporates stoi (string to integer)
+void swapNumbers()
+{
+	string sfirstNum;
+	string ssecondNum;
+	int temp;
+	
+	cout << "You input two numbers.  This program swaps the numbers.\n";
+	cout << "\nEnter the first number... \t";
+	cin >> sfirstNum;
+	int firstNum = stoi(sfirstNum);
+	cout << "\nEnter the second number... \t";
+	cin >> ssecondNum;
+	int secondNum = stoi(ssecondNum);
+
+	cout << "\nBefore swapping... \n";
+	cout << "First Number = " << firstNum << ", Second Number = " << secondNum << "\n\n";
+
+	temp = firstNum;
+	firstNum = secondNum;
+	secondNum = temp;
+
+	cout << "\nAfter swapping.\n";
+	cout << "First Number = " << firstNum << ", Second Number = " << secondNum << "\n";
+}
+// incorporates the use of sqrt
+void findSquareRoot()
+{
+	float number, root;
+	cout << "\nEnter a number whose root is to be found... \t";
+	cin >> number;
+	root = sqrt(number);
+	cout << "\nThe square root of " << number << " is " << root << "\n\n";
+}
+// read and write to a file
+void writeToFile()
+{
+	string sendToFile;
+	// stream class to write to files
+	// writing to test.txt
+	// ios::app appends user input to end of file
+	ofstream myFile ( "test.txt", ios::app );
+	cout << "Please enter information you would like to add to the file...\n";
+	// get user input until user hits 'enter' button
+	getline(cin.ignore(), sendToFile);
+	// send user input to stream object (test.txt)
+	myFile << sendToFile;
+	// close the stream object
+	myFile.close();
+
+	cout << "\nWould you like to see the changes to the file that were made? (Y or N)\t";
+	char yesOrNo;
+	cin >> yesOrNo;
+	// if user answer is yes, execute this code
+	if (yesOrNo == 'Y' || yesOrNo == 'y')
+	{
+		cout << "\n";
+		readFromFile();
+	}
+	// if user answer is no, ask to play again
+	else if (yesOrNo == 'N' || yesOrNo == 'n')
+	{
+		playAgain();
+	}
+	// if user answer is invalid, ask question again
+	else
+	{
+		cout << "The answer you have given is invalid.\n\n";
+		writeToFile();
+	}
+}
+
+void readFromFile()
+{
+	char X;
+	string line;
+	ifstream myNewFile;
+	myNewFile.open("C:\\Users\\crunk\\Documents\\UAT\\CSC215Projects\\VariousFuntions\\test.txt");
+	// check that the file was opened
+	// if not, execute code in brackets
+	if(!myNewFile)
+	{
+		// object of class ostream that represents the standard error stream
+		cerr << "Unable to open the document.\n";
+		exit(1);  // call to stop
+	}
+	// iterate through each line in a file up to the null delimiter \0
+	while(getline(myNewFile, line, '\0'))
+	{
+		cout << line;
+	}
+	cout << "\n";
+	
+	myNewFile.close();
+}
+
+
